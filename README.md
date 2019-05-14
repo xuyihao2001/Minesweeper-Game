@@ -1,7 +1,9 @@
 # Minesweeper-Game
 
-This project allows users to play the Minesweeper Game according to the following rules:
+This project allows users to play the Minesweeper Game. 
 
+## Description
+The following are the rules and included features of the game:
 1. The board has width of 20 squares and height of 10 squares.
 2. At the beginning of game, the player picks one of easy, medium, and hard level.
 3. The easy level has 24 mines; the medium level has 50 mines; the hard level has 80 mines.
