@@ -24,4 +24,4 @@ Once you have imported the project onto Eclipse or other IDEs, click the "run" b
 
 ## Contributing
 
-Pull requests are welcome. Adding more features and improving the functionality and efficiency of current features of the game are all encouraged. For major changes, please open an issue first to see what you would like to change.
+Pull requests are welcome. Adding more features and improving the functionality and efficiency of current features are all encouraged. For major changes, please open an issue first to see what you would like to change.
