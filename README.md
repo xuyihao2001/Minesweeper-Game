@@ -16,8 +16,7 @@ The following are the rules and included features of the game:
 
 ## Installation
 
-This project is created using Eclipse. You can run this project on Eclipse or any other Java IDE. For downloading Eclipse, visit https://www.eclipse.org/downloads/
-For importing this project onto Eclipse, you can visit https://stackoverflow.com/questions/6760115/importing-a-github-project-into-eclipse for instructions (not written by myself)
+This project is created using Eclipse. You can run this project on Eclipse or any other Java IDE. For downloading Eclipse, visit https://www.eclipse.org/downloads/. For importing this project onto Eclipse, you can visit https://stackoverflow.com/questions/6760115/importing-a-github-project-into-eclipse for instructions (not written by myself)
 
 ## Usage
 
