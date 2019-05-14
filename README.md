@@ -16,11 +16,17 @@ The following are the rules and included features of the game:
 
 ## Installation
 
-This project is created using Eclipse. You can run this project on Eclipse or any other Java IDE. For downloading Eclipse, visit https://www.eclipse.org/downloads/. For importing this project onto Eclipse, you can visit https://stackoverflow.com/questions/6760115/importing-a-github-project-into-eclipse for instructions written by others
+This project is created using Eclipse. You can run this project on Eclipse or any other Java IDE. For downloading Eclipse, visit https://www.eclipse.org/downloads/. For importing this project onto Eclipse, you can visit https://stackoverflow.com/questions/6760115/importing-a-github-project-into-eclipse for instructions written by others.
+Once you have imported the project onto Eclipse or other IDEs, click the "run" button and you get to play the Minesweeper game!
+
 ## Usage
 
-Once you have imported the project onto Eclipse or other IDEs, click the "run" button and you get to play the Minesweeper game!
+For personal entertainment purposes
 
 ## Contributing
 
 Pull requests are welcome. Adding more features and improving the functionality and efficiency of current features are all encouraged. For major changes, please open an issue first to see what you would like to change.
+
+## License
+
+MIT
