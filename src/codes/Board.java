@@ -21,11 +21,16 @@ public class Board extends JFrame {
 	public int mineLeft = 0;
 	private Cell[][] boardCell;
 	
+	// randomStatus(min, max): returns a random number between min and max; 
+	// used for distributing mines on the Minesweeper board
 	public double randomStatus(int min, int max) {
 		double random = Math.random()*(max-min+1) + min;
 		return random;
 	}
 	
+	// Board (width, height, numOfMines, mineProb): constructs the Minesweeper board of dimensions width and height 
+	// with a total of numOfMines mines; each cell contains a status of either SAFE or MINE and mineProb
+	// is used in random generation of mines to ensure that mines are distributed more evenly
 	public Board(int width, int height, int numOfMines, int mineProb) {
 		boardCell = new Cell[height][width];
 		mineLeft = numOfMines;
@@ -35,9 +40,11 @@ public class Board extends JFrame {
 				boardCell[r][c] = new Cell();
 				double randomProb = randomStatus(0, 100/mineProb);
 				if (height*width - c - width*r <= numOfMines && numOfMines > 0) {
+					// set status to be MINE if the number of cell left <= number of mines to be distributed
 					(boardCell[r][c]).setStatus(MINE);
 					numOfMines--;
 				} else if (randomProb >= 1.00 && randomProb <= 2.00 && numOfMines > 0) {
+					// set status to MINE according to random number generation
 					(boardCell[r][c]).setStatus(MINE);
 					numOfMines--;
 				} else {
@@ -47,6 +54,8 @@ public class Board extends JFrame {
 		}
 	}
 	
+	// printBoard(width, height): prints the board on the console so that the programmer can see the
+	// status of each cell; used for testing purposes
 	public void printBoard(int width, int height) {
 		for (int r = 0; r < height; ++r) {
 			for (int c = 0; c < width; ++c) {
@@ -76,9 +85,14 @@ public class Board extends JFrame {
 		public int mapHeight = 0;
 		final public int thickness = 2;
 		
+		// creating a JLabel that tells users the status of the game
 		JLabel gameStatus = new JLabel(String.format("There are a total of %d mines", mineLeft));
 		JPanel panel;
 		
+		// Map(width, height): constructs a Minesweeper map with dimensions width and height; 
+		// each cell contain a status of UNKNOWN at the beginning of the game which means that
+		// each cell is unrevealed. When the user clicks on a cell, its status changes accordingly
+		// to either digits 1-9, MARKED, MINESTEP, FALSEMARK, or remains UNKNOWN
 		public Map (int width, int height) {
 			panel = new JPanel(new GridLayout(height, width, thickness, thickness));
 			mapCell = new Cell[height][width];	
@@ -91,7 +105,7 @@ public class Board extends JFrame {
 					panel.add(mapCell[r][c]);
 				}
 			}
-			//panel.add(mineLeftNum);
+			// adding the mouse listener to the panel
 			panel.addMouseListener(new Mouseclass());
 			panel.setBorder(new LineBorder(Color.black, 2));
 			panel.setBackground(Color.BLACK);
@@ -101,7 +115,10 @@ public class Board extends JFrame {
 			add(gameStatus, BorderLayout.SOUTH);
 		}
 		
+		// A class that deals with mouse events
 		public class Mouseclass extends MouseAdapter {
+			// mouseClicked(event): called whenever the user clicks the mouse; behaves according
+			// to whether the user right-clicked or left-clicked, and whether he/she clicked once or twice
 			public void mouseClicked(MouseEvent event) {
 				if (gameOver) {
 					return;
@@ -110,7 +127,7 @@ public class Board extends JFrame {
 				double cellWidth = panel.getComponentAt(event.getX(), event.getY()).getSize().getWidth();
 				double cellHeight = panel.getComponentAt(event.getX(), event.getY()).getSize().getHeight();
 				
-				// clicked at border
+				// user clicked at the border and not on the cell
 				if ((int) cellWidth == panel.getWidth() || (int) cellHeight == panel.getHeight()) {
 					return;
 				}
@@ -123,12 +140,12 @@ public class Board extends JFrame {
 				allCellWidth = (int) cellWidth;
 				allCellHeight = (int) cellHeight;
 				
-				if (event.isMetaDown()) {
+				if (event.isMetaDown()) { //right clicking
 					mark(rowNum, columnNum, mapWidth, mapHeight);
 				} else {
 					int mine = 0;
 					
-					if (event.getClickCount() == 1) {
+					if (event.getClickCount() == 1) { //clicked once
 						mine = step(rowNum, columnNum, mapWidth, mapHeight);
 					} else if (event.getClickCount() >= 2 && 
 							mapCell[rowNum][columnNum].getStatus() >= '1' && 
@@ -155,6 +172,7 @@ public class Board extends JFrame {
 			}
 		}
 		
+		// mineAt(r, c, width, height): returns the number of mines at row r and column c
 		public boolean mineAt(int r, int c, int width, int height) {
 			if (c >= width || c < 0 || r >= height || r < 0) {
 				return false;
@@ -166,6 +184,8 @@ public class Board extends JFrame {
 			return false;
 		}
 		
+		// stepAll(width, height): step on all cells on the board; called after the user
+		// clicked on a mine and lost the game
 		public void stepAll (int width, int height) {
 			for (int r = 0; r < height; r++) {
 				for (int c = 0; c < width; c++) {
@@ -212,6 +232,8 @@ public class Board extends JFrame {
 			}
 		}
 		
+		// step(r, c, width, height): steps on the cell at row r and column c and reveal its status; 
+		// also steps on all adjacent cells if there are no mines in adjacent cells; user steps on a cell by left-clicking once
 		public int step(int r, int c, int width, int height) {
 			if (c >= width || c < 0 || r >= height || r < 0) {
 				return 0;
@@ -277,6 +299,8 @@ public class Board extends JFrame {
 			return 0;
 		}
 		
+		// markAll(width, height): mark all unrevealed cells on the board; called after
+		// the user steps on all safe squares and won the game, but have not marked all squares
 		public void markAll(int width, int height) {
 			for (int r = 0; r < height; ++r) {
 				for (int c = 0; c < width; ++c) {
@@ -287,6 +311,7 @@ public class Board extends JFrame {
 			}
 		}
 		
+		// allStepped(width, height): determines whether or not every cell on the board is revealed
 		public boolean allStepped(int width, int height) {
 			for (int r = 0; r < height; ++r) {
 				for (int c = 0; c < width; ++c) {
@@ -298,6 +323,7 @@ public class Board extends JFrame {
 			return true;
 		}
 		
+		// mark(r, c, width, height): mark the cell at row r and column c; user marks the cell by right clicking
 		public void mark(int r, int c, int width, int height) {
 			if (c >= width || r >= height || c < 0 || r < 0) {
 				return;
@@ -313,6 +339,8 @@ public class Board extends JFrame {
 			gameStatus.setText(String.format("You have %d more mines to mark", mineLeft));
 		}
 		
+		// numMarked(r, c, width, height): determine the number of adjacent cells that is marked; 
+		// used together with the function stepAdv
 		public int numMarked(int r, int c, int width, int height) {
 			if (c >= width || r >= height || c < 0 || r < 0) {
 				return 0;
@@ -346,6 +374,8 @@ public class Board extends JFrame {
 			return n;
 		}
 		
+		// stepAdv(r, c, width, height): steps on all unmarked adjacent cells given that the number of 
+		// marked adjacent cells is equal to the digit on the current cell; called when user left-clicked twice on a cell
 		public int stepAdv(int r, int c, int width, int height) {
 			int n = numMarked(r, c, width, height);
 			int mine1 = 0, mine2 = 0, mine3 = 0, mine4 = 0;
@@ -371,6 +401,7 @@ public class Board extends JFrame {
 			return 0;
 		}
 		
+		// printMap(width, height): prints the status of each cell on the Map; used for testing purposes
 		public void printMap(int width, int height) {
 			for (int r = 0; r < height; ++r) {
 				for (int c = 0; c < width; ++c) {
