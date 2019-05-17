@@ -22,26 +22,30 @@ public class Cell extends JPanel{
   	public int SAFE = 0;
   	public int MINE = 1;
 	
+	// Cell(): constructs a cell object; each cell contains a status
 	public Cell() {
 		setBorder(new LineBorder(Color.black, 1));
-		status = UNKNOWN;
+		status = UNKNOWN; // initializing the status of the cell
 	}
-
+	
+	// getStatus(): returns the status for a cell
 	public int getStatus() {
 		return status;
 	}
-
+	
+	// setStatus(status): sets the status of a cell to be 'status' and repaints the cell after its status has changed
 	public void setStatus(int status) {
 		this.status = status;
-		repaint();
+		repaint(); 
 	}
 	
+	// paintComponent(g): paints a certain component; called by repaint() (i.e. when status of a cell changed)
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setFont(new Font("monospaced", Font.BOLD, 28));
-
+		
 		if (status == '0') {
 			setBackground(Color.LIGHT_GRAY);
 		} else if (status >= '1' && status <= '8') {
@@ -76,13 +80,15 @@ public class Cell extends JPanel{
 			int stringHeight = g.getFontMetrics().getHeight();
 			g.drawString(mineNum, (getWidth()-stringWidth)/2, (getHeight()-stringHeight)/2 + g.getFontMetrics().getAscent());
 		} else if (status == MINESTEP) {
-				g2.setColor(Color.BLACK);
-				g2.drawLine(8, 8, getWidth()-8, getHeight()-8);
-				g2.drawLine(8, getHeight()-8, getWidth()-8, 8);
-				g2.drawLine(5, getHeight()/2, getWidth()-5, getHeight()/2);
-				g2.drawLine(getWidth()/2, 5, getWidth()/2, getHeight()-5);
-				g2.fillOval(9, 9, getWidth()-18, getHeight()-18);
+			// drawing the mine
+			g2.setColor(Color.BLACK);
+			g2.drawLine(8, 8, getWidth()-8, getHeight()-8);
+			g2.drawLine(8, getHeight()-8, getWidth()-8, 8);
+			g2.drawLine(5, getHeight()/2, getWidth()-5, getHeight()/2);
+			g2.drawLine(getWidth()/2, 5, getWidth()/2, getHeight()-5);
+			g2.fillOval(9, 9, getWidth()-18, getHeight()-18);
 		} else {
+			// painting each unrevealed cell
 			g2.setColor(Color.WHITE);
 			g2.fillRect(0, 0, getWidth()/6, getHeight());
 			g2.fillRect(0, 0, getWidth(), getHeight()/6);
@@ -101,11 +107,13 @@ public class Cell extends JPanel{
 			g2.setColor(Color.LIGHT_GRAY);
 			g2.fillRect(getWidth()/6, getHeight()/6, getWidth() - getWidth()/6 - getWidth()/7, getHeight() - getHeight()/7 - getHeight()/7);
 			if (status == MARKED) {
+				// painting each marked cell
 				g2.setColor(Color.RED);
 				int stringWidth = g.getFontMetrics().stringWidth("M");
 				int stringHeight = g.getFontMetrics().getHeight();
 				g2.drawString("M", (getWidth()-stringWidth)/2, (getHeight()-stringHeight)/2 + g.getFontMetrics().getAscent());
 			} else if (status == FALSEMARK) {
+				// painting the cell that is marked but does not contain a mine, after the player loses
 				g2.setColor(Color.RED);
 				int stringWidth = g.getFontMetrics().stringWidth("M");
 				int stringHeight = g.getFontMetrics().getHeight();
