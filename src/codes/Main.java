@@ -16,7 +16,7 @@ public class Main {
 	    
 		int width = 20;
 		int height = 10;
-		JFrame window = new JFrame();
+		JFrame window = new JFrame(); // creating a window for the game
 		
 		JLabel setting = new JLabel("Please select the level of difficulty");
 		setting.setBorder(new LineBorder(Color.yellow, 2));
@@ -34,9 +34,11 @@ public class Main {
 		window.setTitle("Minesweeper");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setVisible(true);
-
+		
+		// dealing with JList using the listener
 		list.addListSelectionListener(
 				new ListSelectionListener() {
+					// valueChanged(event): called when the user clicks on one of the options is JList
 					public void valueChanged(ListSelectionEvent event) {
 						prob = mineProb[list.getSelectedIndex()];
 						window.dispose();
